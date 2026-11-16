@@ -1,9 +1,9 @@
 local FontstringTables = {
 	["Non Configurable Enhancements"] = {
 		[0] = "LazyPigNCE",
-		[1] = { "LazyPig_kbfs000", "Sell Grey Items/Repairs:", "Hold Shift Key while Merchant's window is open" },
-		[2] = { "LazyPig_kbfs001", "Repeatable Quest Auto-Complete:", "Hold Shift Key and finish quest once to record the steps." },
-		[3] = { "LazyPig_kbfs002", "Quest Auto-PickUp/Auto-Complete:", "Hold Alt Key to Pickup/Complete quests." },
+		[1] = { "LazyPig_kbfs000", "Sell Grey Items/Repairs:", "Hold Alt while the merchant window is open" },
+		[2] = { "LazyPig_kbfs001", "Repeatable Quest Auto-Complete:", "Hold Shift through the first turn-in and talk to the NPC again." },
+		[3] = { "LazyPig_kbfs002", "Quest Acceptance:", "Hold Shift or Alt on the quest detail screen." },
 	},
 
 	["Special Key-Combination Bindings"] = {

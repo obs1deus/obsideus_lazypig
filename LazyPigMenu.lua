@@ -207,7 +207,7 @@ local function CheckBoxGroup(hParent, offsetX, offsetY, sTitle, tCheck)
 end
 
 local function AddOptionsScaleControls(frame)
-	local minScale, maxScale, step, defaultScale = 50, 100, 5, 80
+	local minScale, maxScale, step, defaultScale = 50, 150, 5, 80
 	local smaller = CreateFrame("Button", "LazyPigOptionsScaleDown", frame, "GameMenuButtonTemplate")
 	local larger = CreateFrame("Button", "LazyPigOptionsScaleUp", frame, "GameMenuButtonTemplate")
 	local label = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -292,7 +292,7 @@ function LazyPig_CreateOptionsFrame()
 	local fs_title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
 	local LP_VERSION = GetAddOnMetadata("_LazyPig", "Version")
 	fs_title:SetPoint("CENTER", frame.texture_title, "CENTER", 0, 12)
-	fs_title:SetText("LazyPig Options v" .. LP_VERSION)
+	fs_title:SetText("Obsideus' LazyPig Options v" .. LP_VERSION)
 
 	frame.fs_title = fs_title
 
