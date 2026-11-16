@@ -1,4 +1,4 @@
-# Obsideus' LazyPig v6.0.7
+# Obsideus' LazyPig v6.0.8
 
 Obsideus' LazyPig is a World of Warcraft 1.12 addon for repeatable quest turn-ins, auto-dismount, loot handling, and other shortcuts.  Updated for Turtle/OctoWoW.  Credit to Ogrisch, mrmr, Lexie and TrumpetX for their past contributions.
 
@@ -8,7 +8,7 @@ Install LazyPig with the [Twilight Hammer Toolkit](https://github.com/obs1deus/t
 
 1. Download and extract the repository ZIP.
 2. Rename the extracted folder to `_LazyPig` and move it into your game's `Interface/AddOns` folder. The addon manifest should be at `Interface/AddOns/_LazyPig/_LazyPig.toc`.
-3. Start the game or run `/reload`. Type `/lp` or `/lazypig` to open the options window. Click **Show Keybinds** to view the available shortcuts.
+3. Start the game or run `/reload`. Type `/lp` or `/lazypig` to open the options window. Click **Show Keybinds** to open the docked shortcuts panel. Use **Undock** to move it independently and **Dock** to reattach it.
 
 ### Upgrading from another LazyPig fork
 

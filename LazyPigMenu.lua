@@ -227,6 +227,9 @@ local function AddOptionsScaleControls(frame)
 		LPCONFIG.OPTIONS_SCALE = percent
 		frame:SetScale(percent / 100)
 		label:SetText("Scale " .. percent .. "%")
+		if LazyPigKeybindsFrame and LazyPigKeybindsFrame:IsVisible() then
+			LazyPigKeybindsFrame:UpdateDockPosition()
+		end
 		if percent > minScale then smaller:Enable() else smaller:Disable() end
 		if percent < maxScale then larger:Enable() else larger:Disable() end
 	end
@@ -270,6 +273,9 @@ function LazyPig_CreateOptionsFrame()
 		if arg1 == "LeftButton" and this.isMoving then
 			this:StopMovingOrSizing();
 			this.isMoving = false;
+			if LazyPigKeybindsFrame and LazyPigKeybindsFrame:IsVisible() then
+				LazyPigKeybindsFrame:UpdateDockPosition()
+			end
 		end
 	end)
 	frame:SetScript("OnHide", function()

@@ -74,20 +74,35 @@ local function FontstringGroup(hParent, offsetX, offsetY, sTitle, tCheck, tCol1,
 end
 
 function LazyPig_CreateKeybindsFrame()
-	local LPF = getglobal("LazyPigOptionsFrame")
-	local LPF_Bottom = LPF:GetBottom()
-	-- Keybinds Frame
-	local frame = CreateFrame("Frame", "LazyPigKeybindsFrame")
-	tinsert(UISpecialFrames,"LazyPigKeybindsFrame")
-	frame:SetScale(.81)
-    frame:SetFrameStrata("DIALOG")
+	local options = LazyPigOptionsFrame
+	local frame = CreateFrame("Frame", "LazyPigKeybindsFrame", options)
+	tinsert(UISpecialFrames, "LazyPigKeybindsFrame")
+	frame:SetFrameStrata("DIALOG")
+	frame:SetFrameLevel(options:GetFrameLevel() + 5)
 	frame:SetWidth(570)
 	frame:SetHeight(175)
-	
-	--frame:SetPoint("TOP", nil, "CENTER", 0, LPF_Bottom)
-	frame:SetPoint("TOP", LPF, "BOTTOM", 0, -10)
+	frame.docked = true
 
-	--frame:SetPoint("TOP", nil, "CENTER", 0, -135)
+	function frame:UpdateDockPosition()
+		if not self.docked then return end
+
+		local scale = options:GetEffectiveScale() / UIParent:GetEffectiveScale()
+		local width = self:GetWidth() * scale
+		local height = self:GetHeight() * scale
+		local gap = 6
+		self:ClearAllPoints()
+		if (options:GetBottom() or 0) * scale >= height + gap then
+			self:SetPoint("TOP", options, "BOTTOM", 0, -gap)
+		elseif UIParent:GetWidth() - (options:GetRight() or 0) * scale >= width + gap then
+			self:SetPoint("TOPLEFT", options, "TOPRIGHT", gap, 0)
+		elseif (options:GetLeft() or 0) * scale >= width + gap then
+			self:SetPoint("TOPRIGHT", options, "TOPLEFT", -gap, 0)
+		else
+			self:SetPoint("BOTTOM", options, "BOTTOM", 0, 10)
+		end
+	end
+
+	frame:SetPoint("BOTTOM", options, "BOTTOM", 0, 10)
 	frame:SetBackdrop( {
 			bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", 
 			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", 
@@ -98,13 +113,14 @@ function LazyPig_CreateKeybindsFrame()
 		} );
 	frame:SetBackdropColor(.01, .01, .01, .91)
 
-	frame:SetMovable(true)
+	frame:SetMovable(false)
 	frame:EnableMouse(true)
 	frame:SetClampedToScreen(false)
 	frame:RegisterForDrag("LeftButton")
 
 	frame:Hide()
 	frame:SetScript("OnShow", function()
+		frame:UpdateDockPosition()
 		LazyPig_ShowBindings("LOGOUT", "LP_KB1", "CTRL+ALT+SHIFT");
 		LazyPig_ShowBindings("UNSTUCK", "LP_KB2");
 		LazyPig_ShowBindings("RELOAD", "LP_KB3");
@@ -112,7 +128,7 @@ function LazyPig_CreateKeybindsFrame()
 		LazyPig_ShowBindings("WSGDROP", "LP_KB5");	
 	end)
 	frame:SetScript("OnMouseDown", function()
-		if arg1 == "LeftButton" and not this.isMoving then
+		if not this.docked and arg1 == "LeftButton" and not this.isMoving then
 			this:StartMoving();
 			this.isMoving = true;
 		end
@@ -142,9 +158,36 @@ function LazyPig_CreateKeybindsFrame()
 	-- MenuTitle FontString
 	local fs_title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
 	fs_title:SetPoint("CENTER", frame.texture_title, "CENTER", 0, 12)
-	fs_title:SetText("_LazyPig Keybinds")
+	fs_title:SetText("Keybinds")
 
 	frame.fs_title = fs_title
+
+	local dockButton = CreateFrame("Button", "LazyPigKeybindsDockButton", frame, "GameMenuButtonTemplate")
+	dockButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -16, -12)
+	dockButton:SetWidth(72)
+	dockButton:SetHeight(20)
+	dockButton:SetText("Undock")
+	dockButton:SetScript("OnClick", function()
+		frame.docked = not frame.docked
+		if frame.docked then
+			frame:SetParent(options)
+			frame:SetScale(1)
+			frame:SetFrameLevel(options:GetFrameLevel() + 5)
+			frame:SetMovable(false)
+			frame:SetClampedToScreen(false)
+			frame:UpdateDockPosition()
+			dockButton:SetText("Undock")
+		else
+			frame:SetParent(UIParent)
+			frame:SetScale(options:GetEffectiveScale() / UIParent:GetEffectiveScale())
+			frame:ClearAllPoints()
+			frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+			frame:SetMovable(true)
+			frame:SetClampedToScreen(true)
+			dockButton:SetText("Dock")
+		end
+	end)
+
 
 	local st = "Non Configurable Enhancements"
 	frame.fsgroup_NCE = FontstringGroup(frame, 20, -25, st, FontstringTables[st], {1, .81, 0}, {1, 1, 1})
