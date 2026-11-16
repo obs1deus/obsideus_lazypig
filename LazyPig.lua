@@ -352,11 +352,12 @@ function LazyPig_OnUpdate()
 	end
 
 	if not QuestHaste then
-		if altstatus then
+		if shiftstatus or altstatus then
 			if QuestFrameDetailPanel:IsVisible() then
 				AcceptQuest();
 			end
-		elseif QuestRecord["details"] and not altstatus then
+		end
+		if not shiftstatus and QuestRecord["details"] then
 			LazyPig_RecordQuest();
 		end
 	end
@@ -1229,12 +1230,12 @@ function LazyPig_RecordQuest(qdetails)
 	if QuestHaste then
 		return
 	end
-	if IsAltKeyDown() and qdetails then
+	if IsShiftKeyDown() and qdetails then
 		if QuestRecord["details"] ~= qdetails then
 			QuestRecord["details"] = qdetails
 		end
 		LazyPig_FixQuest(QuestRecord["details"], true)
-	elseif not IsAltKeyDown() and QuestRecord["details"] then
+	elseif not IsShiftKeyDown() and QuestRecord["details"] then
 		QuestRecord["details"] = nil
 		QuestRecord.itemChoice = nil
 	end
@@ -1252,7 +1253,7 @@ function LazyPig_QuestRewardItem_OnClick()
 end
 
 function LazyPig_ReplyQuest(event)
-	if QuestHaste or not IsAltKeyDown() then
+	if QuestHaste or not IsShiftKeyDown() then
 		return
 	end
 
@@ -1275,9 +1276,9 @@ function LazyPig_ReplyQuest(event)
 					return
 				end
 			end
-		elseif table.getn(ActiveQuest) == 0 and table.getn(AvailableQuest) == 1 or IsAltKeyDown() and table.getn(AvailableQuest) > 0 then
+		elseif table.getn(AvailableQuest) > 0 then
 			LazyPig_SelectGossipAvailableQuest(1, true)
-		elseif table.getn(ActiveQuest) == 1 and table.getn(AvailableQuest) == 0 or IsAltKeyDown() and table.getn(ActiveQuest) > 0 then
+		elseif table.getn(ActiveQuest) > 0 then
 			local nr = table.getn(ActiveQuest)
 			if QuestRecord["progress"] and (nr - QuestRecord["index"]) > 0 then
 				--DEFAULT_CHAT_FRAME:AddMessage("++quest dec nr - "..nr.." index - "..QuestRecord["index"])
@@ -1300,9 +1301,9 @@ function LazyPig_ReplyQuest(event)
 					return
 				end
 			end
-		elseif table.getn(ActiveQuest) == 0 and table.getn(AvailableQuest) == 1 or IsAltKeyDown() and table.getn(AvailableQuest) > 0 then
+		elseif table.getn(AvailableQuest) > 0 then
 			LazyPig_SelectAvailableQuest(1, true)
-		elseif table.getn(ActiveQuest) == 1 and table.getn(AvailableQuest) == 0 or IsAltKeyDown() and table.getn(ActiveQuest) > 0 then
+		elseif table.getn(ActiveQuest) > 0 then
 			local nr = table.getn(ActiveQuest)
 			if QuestRecord["progress"] and (nr - QuestRecord["index"]) > 0 then
 				--DEFAULT_CHAT_FRAME:AddMessage("--quest dec nr - "..nr.." index - "..QuestRecord["index"])
