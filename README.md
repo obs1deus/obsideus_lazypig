@@ -1,8 +1,10 @@
 # LazyPig
 
-LazyPig is a Vanilla WoW addon for repeatable quest turn-ins, auto-dismount, loot handling, and other shortcuts. You can install this fork through the Twilight Hammer Toolkit or manually.
+LazyPig is a Vanilla WoW addon for repeatable quest turn-ins, auto-dismount, loot handling, and other shortcuts.
 
 ## Install and configure
+
+Install LazyPig with the [Twilight Hammer Toolkit](https://github.com/obs1deus/twilighthammertoolkit) or another addon manager that supports GitHub repositories. To install it manually, follow the steps below.
 
 1. Download and extract the repository ZIP.
 2. Rename the extracted folder to `_LazyPig` and move it into your game's `Interface/AddOns` folder. The addon manifest should be at `Interface/AddOns/_LazyPig/_LazyPig.toc`.
