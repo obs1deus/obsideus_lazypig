@@ -1,6 +1,6 @@
 # Obsideus' LazyPig
 
-Obsideus' LazyPig is a World of Warcraft 1.12 addon for repeatable quest turn-ins, auto-dismount, loot handling, and other shortcuts.
+Obsideus' LazyPig is a World of Warcraft 1.12 addon for repeatable quest turn-ins, auto-dismount, loot handling, and other shortcuts.  Updated for Turtle/OctoWoW.  Credit to Ogrisch, mrmr, Lexie and TrumpetX for their past contributions.
 
 ## Install and configure
 
@@ -18,7 +18,7 @@ Install into the existing `Interface/AddOns/_LazyPig` folder and replace matchin
 
 Open `/lp` and click **−** or **+** in the top-right corner. The window defaults to **80%**. Each click changes the scale by five percentage points, within a range of **50% to 150%**. LazyPig saves your selection across reloads and logins.
 
-## Repeatable quest auto-complete
+## Repeatable quest auto-complete fix
 
 1. Hold **Shift** before opening the quest NPC's dialogue.
 2. Keep holding Shift as you complete the first turn-in. If the quest offers a choice of rewards, select the one you want to repeat.
