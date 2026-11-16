@@ -297,6 +297,16 @@ function LazyPig_CreateOptionsFrame()
 			this:StopMovingOrSizing();
 			this.isMoving = false;
 		end
+		if LazyPigKeybindsFrame and LazyPigKeybindsFrame.docked then
+			this.restoreKeybinds = LazyPigKeybindsFrame:IsShown()
+			LazyPigKeybindsFrame:Hide()
+		end
+	end)
+	frame:SetScript("OnShow", function()
+		if this.restoreKeybinds then
+			this.restoreKeybinds = nil
+			LazyPigKeybindsFrame:Show()
+		end
 	end)
 
 	local fs_title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
@@ -315,8 +325,8 @@ function LazyPig_CreateOptionsFrame()
 	frame.btn_close = btn_close
 
 	frame.btn_close:SetScript("OnClick", function()
+		LazyPigKeybindsFrame:Hide()
 		this:GetParent():Hide()
-			LazyPigKeybindsFrame:Hide()
 	end)
 	AddOptionsScaleControls(frame)
 
@@ -331,12 +341,10 @@ function LazyPig_CreateOptionsFrame()
 	frame.btn_keybinds = btn_keybinds
 
 	frame.btn_keybinds:SetScript("OnClick", function()
-		if this:GetText() == "Show Keybinds" then
+		if not LazyPigKeybindsFrame:IsShown() then
 			LazyPigKeybindsFrame:Show()
-			this:SetText("Hide Keybinds")
 		else
 			LazyPigKeybindsFrame:Hide()
-			this:SetText("Show Keybinds")
 		end
 	end)
 

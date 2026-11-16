@@ -75,7 +75,7 @@ end
 
 function LazyPig_CreateKeybindsFrame()
 	local options = LazyPigOptionsFrame
-	local frame = CreateFrame("Frame", "LazyPigKeybindsFrame", options)
+	local frame = CreateFrame("Frame", "LazyPigKeybindsFrame", UIParent)
 	tinsert(UISpecialFrames, "LazyPigKeybindsFrame")
 	frame:SetFrameStrata("DIALOG")
 	frame:SetFrameLevel(options:GetFrameLevel() + 5)
@@ -87,15 +87,17 @@ function LazyPig_CreateKeybindsFrame()
 		if not self.docked then return end
 
 		local scale = options:GetEffectiveScale() / UIParent:GetEffectiveScale()
+		self:SetScale(scale)
 		local width = self:GetWidth() * scale
 		local height = self:GetHeight() * scale
 		local gap = 6
+		local screenGap = gap * scale
 		self:ClearAllPoints()
-		if (options:GetBottom() or 0) * scale >= height + gap then
+		if (options:GetBottom() or 0) * scale >= height + screenGap then
 			self:SetPoint("TOP", options, "BOTTOM", 0, -gap)
-		elseif UIParent:GetWidth() - (options:GetRight() or 0) * scale >= width + gap then
+		elseif UIParent:GetWidth() - (options:GetRight() or 0) * scale >= width + screenGap then
 			self:SetPoint("TOPLEFT", options, "TOPRIGHT", gap, 0)
-		elseif (options:GetLeft() or 0) * scale >= width + gap then
+		elseif (options:GetLeft() or 0) * scale >= width + screenGap then
 			self:SetPoint("TOPRIGHT", options, "TOPLEFT", -gap, 0)
 		else
 			self:SetPoint("BOTTOM", options, "BOTTOM", 0, 10)
@@ -121,6 +123,7 @@ function LazyPig_CreateKeybindsFrame()
 	frame:Hide()
 	frame:SetScript("OnShow", function()
 		frame:UpdateDockPosition()
+		options.btn_keybinds:SetText("Hide Keybinds")
 		LazyPig_ShowBindings("LOGOUT", "LP_KB1", "CTRL+ALT+SHIFT");
 		LazyPig_ShowBindings("UNSTUCK", "LP_KB2");
 		LazyPig_ShowBindings("RELOAD", "LP_KB3");
@@ -140,6 +143,7 @@ function LazyPig_CreateKeybindsFrame()
 		end
 	end)
 	frame:SetScript("OnHide", function()
+		options.btn_keybinds:SetText("Show Keybinds")
 		if this.isMoving then
 			this:StopMovingOrSizing();
 			this.isMoving = false;
@@ -170,16 +174,11 @@ function LazyPig_CreateKeybindsFrame()
 	dockButton:SetScript("OnClick", function()
 		frame.docked = not frame.docked
 		if frame.docked then
-			frame:SetParent(options)
-			frame:SetScale(1)
-			frame:SetFrameLevel(options:GetFrameLevel() + 5)
 			frame:SetMovable(false)
 			frame:SetClampedToScreen(false)
 			frame:UpdateDockPosition()
 			dockButton:SetText("Undock")
 		else
-			frame:SetParent(UIParent)
-			frame:SetScale(options:GetEffectiveScale() / UIParent:GetEffectiveScale())
 			frame:ClearAllPoints()
 			frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 			frame:SetMovable(true)
