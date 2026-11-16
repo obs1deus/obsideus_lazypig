@@ -1,5 +1,9 @@
 Updated for Turtle WoW Expansion mounts and Riding Turtle - autodismount
 
+Use /lp to open LazyPig Options. The - and + buttons in the top right
+resize the Options window from 50% to 100%. It starts at 80% and
+remembers your selection across reloads and logins.
+
 
 This mod is mostly for lazy people:
 

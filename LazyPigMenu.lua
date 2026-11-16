@@ -206,16 +206,45 @@ local function CheckBoxGroup(hParent, offsetX, offsetY, sTitle, tCheck)
 	return frame
 end
 
+local function AddOptionsScaleControls(frame)
+	local minScale, maxScale, step, defaultScale = 50, 100, 5, 80
+	local smaller = CreateFrame("Button", "LazyPigOptionsScaleDown", frame, "GameMenuButtonTemplate")
+	local larger = CreateFrame("Button", "LazyPigOptionsScaleUp", frame, "GameMenuButtonTemplate")
+	local label = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+
+	for _, button in ipairs({smaller, larger}) do
+		button:SetWidth(20)
+		button:SetHeight(20)
+	end
+	larger:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -48, -18)
+	larger:SetText("+")
+	label:SetPoint("RIGHT", larger, "LEFT", -5, 0)
+	smaller:SetPoint("TOPRIGHT", larger, "TOPRIGHT", -85, 0)
+	smaller:SetText("-")
+
+	local function ApplyScale(percent)
+		percent = math.max(minScale, math.min(maxScale, percent))
+		LPCONFIG.OPTIONS_SCALE = percent
+		frame:SetScale(percent / 100)
+		label:SetText("Scale " .. percent .. "%")
+		if percent > minScale then smaller:Enable() else smaller:Disable() end
+		if percent < maxScale then larger:Enable() else larger:Disable() end
+	end
+
+	smaller:SetScript("OnClick", function() ApplyScale(LPCONFIG.OPTIONS_SCALE - step) end)
+	larger:SetScript("OnClick", function() ApplyScale(LPCONFIG.OPTIONS_SCALE + step) end)
+	ApplyScale(tonumber(LPCONFIG.OPTIONS_SCALE) or defaultScale)
+end
+
 function LazyPig_CreateOptionsFrame()
 	-- Option Frame
-	local frame = CreateFrame("Frame", "LazyPigOptionsFrame")
+	local frame = CreateFrame("Frame", "LazyPigOptionsFrame", UIParent)
 	tinsert(UISpecialFrames,"LazyPigOptionsFrame")
-	-- frame:SetScale(.81)
 	frame:SetFrameStrata("DIALOG")
 	frame:SetWidth(630)
 	frame:SetHeight(643)
 	
-	frame:SetPoint("TOPLEFT", nil, "TOPLEFT", 250, -50)
+	frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
 	frame:SetBackdrop( {
 			bgFile = "Interface\\Buttons\\WHITE8x8", 
 			edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", 
@@ -228,7 +257,7 @@ function LazyPig_CreateOptionsFrame()
 
 	frame:SetMovable(true)
 	frame:EnableMouse(true)
-	frame:SetClampedToScreen(false)
+	frame:SetClampedToScreen(true)
 	frame:RegisterForDrag("LeftButton")
 	frame:Hide()
 	frame:SetScript("OnMouseDown", function()
@@ -279,6 +308,7 @@ function LazyPig_CreateOptionsFrame()
 		this:GetParent():Hide()
 			LazyPigKeybindsFrame:Hide()
 	end)
+	AddOptionsScaleControls(frame)
 
 	-- Keybinds Window Button
 	local btn_keybinds = CreateFrame("Button", "LazyPigOptionsFrameKeibindsButton", frame, "GameMenuButtonTemplate")
