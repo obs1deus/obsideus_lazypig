@@ -222,10 +222,24 @@ local function AddOptionsScaleControls(frame)
 	smaller:SetPoint("TOPRIGHT", larger, "TOPRIGHT", -85, 0)
 	smaller:SetText("-")
 
-	local function ApplyScale(percent)
+	local function ApplyScale(percent, keepPosition)
+		local left, top
+		if keepPosition then
+			left, top = frame:GetLeft(), frame:GetTop()
+		end
+		local oldScale = frame:GetEffectiveScale()
+
 		percent = math.max(minScale, math.min(maxScale, percent))
 		LPCONFIG.OPTIONS_SCALE = percent
 		frame:SetScale(percent / 100)
+		if left and top then
+			local parentScale = UIParent:GetEffectiveScale()
+			local newScale = frame:GetEffectiveScale()
+			local x = (left * oldScale - UIParent:GetLeft() * parentScale) / newScale
+			local y = (top * oldScale - UIParent:GetTop() * parentScale) / newScale
+			frame:ClearAllPoints()
+			frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", x, y)
+		end
 		label:SetText("Scale " .. percent .. "%")
 		if LazyPigKeybindsFrame and LazyPigKeybindsFrame:IsVisible() then
 			LazyPigKeybindsFrame:UpdateDockPosition()
@@ -234,8 +248,8 @@ local function AddOptionsScaleControls(frame)
 		if percent < maxScale then larger:Enable() else larger:Disable() end
 	end
 
-	smaller:SetScript("OnClick", function() ApplyScale(LPCONFIG.OPTIONS_SCALE - step) end)
-	larger:SetScript("OnClick", function() ApplyScale(LPCONFIG.OPTIONS_SCALE + step) end)
+	smaller:SetScript("OnClick", function() ApplyScale(LPCONFIG.OPTIONS_SCALE - step, true) end)
+	larger:SetScript("OnClick", function() ApplyScale(LPCONFIG.OPTIONS_SCALE + step, true) end)
 	ApplyScale(tonumber(LPCONFIG.OPTIONS_SCALE) or defaultScale)
 end
 
@@ -285,19 +299,9 @@ function LazyPig_CreateOptionsFrame()
 		end
 	end)
 
-	-- MenuTitle Frame
-	local texture_title = frame:CreateTexture("LazyPigOptionsFrameTitle")
-	texture_title:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header", true);
-	texture_title:SetWidth(296)
-	texture_title:SetHeight(58)
-	texture_title:SetPoint("CENTER", frame, "TOP", 0, -20)
-
-	frame.texture_title = texture_title
-
-	-- MenuTitle FontString
 	local fs_title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
 	local LP_VERSION = GetAddOnMetadata("_LazyPig", "Version")
-	fs_title:SetPoint("CENTER", frame.texture_title, "CENTER", 0, 12)
+	fs_title:SetPoint("TOP", frame, "TOP", 0, -23)
 	fs_title:SetText("Obsideus' LazyPig Options v" .. LP_VERSION)
 
 	frame.fs_title = fs_title

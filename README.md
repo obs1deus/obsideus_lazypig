@@ -1,4 +1,4 @@
-# Obsideus' LazyPig v6.0.8
+# Obsideus' LazyPig v6.0.9
 
 Obsideus' LazyPig is a World of Warcraft 1.12 addon for repeatable quest turn-ins, auto-dismount, loot handling, and other shortcuts.  Updated for Turtle/OctoWoW.  Credit to Ogrisch, mrmr, Lexie and TrumpetX for their past contributions.
 
@@ -16,7 +16,7 @@ Install into the existing `Interface/AddOns/_LazyPig` folder and replace matchin
 
 ## Resize the options window
 
-Open `/lp` and click **−** or **+** in the top-right corner. The window defaults to **80%**. Each click changes the scale by five percentage points, within a range of **50% to 150%**. LazyPig saves your selection across reloads and logins.
+Open `/lp` and click **−** or **+** in the top-right corner. The window defaults to **80%**. Each click changes the scale by five percentage points, within a range of **50% to 150%**. Resizing keeps the window anchored at its top-left corner when it fits on screen. LazyPig saves your scale across reloads and logins.
 
 ## Repeatable quest auto-complete fix
 
