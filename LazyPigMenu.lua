@@ -84,6 +84,13 @@ local CheckBoxTables = {
 		[3] = { "LazyPigCheckbox110", "Pass" }
 	},
 
+	["Alterac Valley Roll Automation"] = {
+		[0] = "LazyPigCheckboxGroupAVRoll",
+		[1] = { "LazyPigCheckbox111", "Need", "Automatically roll Need on loot only in Alterac Valley." },
+		[2] = { "LazyPigCheckbox112", "Greed", "Automatically roll Greed on loot only in Alterac Valley." },
+		[3] = { "LazyPigCheckbox113", "Pass", "Automatically pass on loot only in Alterac Valley." }
+	},
+
 	["Battlegrounds Automation"] = {
 		[0] = "LazyPigCheckboxGroupBGAutomation",
 		[1] = { "LazyPigCheckbox50", "Enter Battleground", "Enter the Battleground as soon as the queue popup" },
@@ -407,6 +414,9 @@ function LazyPig_CreateOptionsFrame()
 
 	local str = "Aspect of the Wolf"
 	frame.cbgroup_aspectremover = CheckBoxGroup(frame,450,-255,str,CheckBoxTables[str])
+
+	local str = "Alterac Valley Roll Automation"
+	frame.cbgroup_av = CheckBoxGroup(frame, 450, -315, str, CheckBoxTables[str])
 
 	return frame
 

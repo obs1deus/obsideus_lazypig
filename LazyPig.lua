@@ -196,6 +196,9 @@ LazyPigMenuStrings[107] = "Pass"
 LazyPigMenuStrings[108] = "Need"
 LazyPigMenuStrings[109] = "Greed"
 LazyPigMenuStrings[110] = "Pass"
+LazyPigMenuStrings[111] = "Need"
+LazyPigMenuStrings[112] = "Greed"
+LazyPigMenuStrings[113] = "Pass"
 
 function LazyPig_OnLoad()
 	SelectGossipActiveQuest = LazyPig_SelectGossipActiveQuest;
@@ -985,87 +988,93 @@ function LazyPig_AutoRoll(id)
 
 	local _, name, _, quality = GetLootRollItemInfo(id)
 
-	if LPCONFIG.ZG and zone == "Zul'Gurub" then
-		if string.find(name, "Hakkari Bijou") or string.find(name, "Coin") then
-			cfg = LPCONFIG.ZG
-			RollOnLoot(id, LPCONFIG.ZG);
-		end
-	end
-
-	if LPCONFIG.MC and zone == "Molten Core" then
-		if string.find(name, "Fiery Core") or string.find(name, "Lava Core") or string.find(name, "Blood of the Mountain") then
-			cfg = LPCONFIG.MC
-			RollOnLoot(id, LPCONFIG.MC);
-		end
-	end
-
-	if LPCONFIG.AQ and string.find(zone,"Ahn'Qiraj") then
-		if not string.find(name, "Scarab Brooch") and not string.find(name, "Petrified Scarab") then
-			if string.find(name, "Scarab") or string.find(name, "Idol") then
-				cfg = LPCONFIG.AQ
-				RollOnLoot(id, LPCONFIG.AQ);
+	if LPCONFIG.AV ~= nil and zone == "Alterac Valley" then
+		cfg = LPCONFIG.AV
+		RollOnLoot(id, cfg)
+	else
+		if LPCONFIG.ZG and zone == "Zul'Gurub" then
+			if string.find(name, "Hakkari Bijou") or string.find(name, "Coin") then
+				cfg = LPCONFIG.ZG
+				RollOnLoot(id, LPCONFIG.ZG);
 			end
 		end
-	end
 
-	if LPCONFIG.AQMOUNT and string.find(zone,"Ahn'Qiraj") then
-		if string.find(name, "Blue Qiraji Resonating") or string.find(name, "Green Qiraji Resonating") or string.find(name, "Yellow Qiraji Resonating") then
-			cfg = LPCONFIG.AQMOUNT
-			RollOnLoot(id, LPCONFIG.AQMOUNT);
-		end
-	end
-
-	if LPCONFIG.SAND then
-		if string.find(name ,"Corrupted Sand") then
-			cfg = LPCONFIG.SAND
-			RollOnLoot(id, LPCONFIG.SAND);
-		end
-	end
-
-	if LPCONFIG.NAXX and zone == "Naxxramas" then
-		if string.find(name, "Wartorn") or string.find(name, "Thawing") then
-			cfg = LPCONFIG.NAXX
-			RollOnLoot(id, LPCONFIG.NAXX);
-		end
-	end
-
-	if LPCONFIG.BWL and string.find(zone, "Blackwing") then
-		if string.find(name, "Hourglass Sand") or string.find(name, "Elementium Ore") then
-			cfg = LPCONFIG.BWL
-			RollOnLoot(id, LPCONFIG.BWL)
-		end
-	end
-
-	-- Hard coded auto need for Necrotic Runes
-	if string.find(name, "Necrotic Rune") then
-		cfg = 1
-		RollOnLoot(id, 1);
-	end
-
-	-- Config for "White" tailoring items (Cloth, Spider Silk)
-	if LPCONFIG.WHITE_TAILORING and quality == 1 and (string.find(name, "loth") or string.find(name, "Silk")) then
-		cfg = LPCONFIG.WHITE_TAILORING
-		RollOnLoot(id, LPCONFIG.WHITE_TAILORING)
-	end
-
-	-- Config for Food and Drink
-	if LPCONFIG.FOOD_AND_DRINK and quality == 1 then
-		local itemLink = GetLootRollItemLink(id);
-		local found, _, itemIdFromLink, _ = string.find(itemLink, "item:(%d+):.*%[(.*)%]")
-		if found and itemIdFromLink then
-			local _,_,_,_,_,itemType,subType = GetItemInfo(tonumber(itemIdFromLink))
-			if itemType == "Consumable" and subType==20 then
-				cfg = LPCONFIG.FOOD_AND_DRINK
-				RollOnLoot(id, LPCONFIG.FOOD_AND_DRINK)
+		if LPCONFIG.MC and zone == "Molten Core" then
+			if string.find(name, "Fiery Core") or string.find(name, "Lava Core") or string.find(name, "Blood of the Mountain") then
+				cfg = LPCONFIG.MC
+				RollOnLoot(id, LPCONFIG.MC);
 			end
 		end
-	end
 
-	if LPCONFIG.ES_SHARDS and string.find(zone, "Emerald Sanctum") then
-		if string.find(name, "Dreamscale") or string.find(name, "Fading Dream Fragment") or string.find(name, "Small Dream Shard") then
-			cfg = LPCONFIG.ES_SHARDS
-			RollOnLoot(id, LPCONFIG.ES_SHARDS)
+		if LPCONFIG.AQ and string.find(zone,"Ahn'Qiraj") then
+			if not string.find(name, "Scarab Brooch") and not string.find(name, "Petrified Scarab") then
+				if string.find(name, "Scarab") or string.find(name, "Idol") then
+					cfg = LPCONFIG.AQ
+					RollOnLoot(id, LPCONFIG.AQ);
+				end
+			end
 		end
+
+		if LPCONFIG.AQMOUNT and string.find(zone,"Ahn'Qiraj") then
+			if string.find(name, "Blue Qiraji Resonating") or string.find(name, "Green Qiraji Resonating") or string.find(name, "Yellow Qiraji Resonating") then
+				cfg = LPCONFIG.AQMOUNT
+				RollOnLoot(id, LPCONFIG.AQMOUNT);
+			end
+		end
+
+		if LPCONFIG.SAND then
+			if string.find(name ,"Corrupted Sand") then
+				cfg = LPCONFIG.SAND
+				RollOnLoot(id, LPCONFIG.SAND);
+			end
+		end
+
+		if LPCONFIG.NAXX and zone == "Naxxramas" then
+			if string.find(name, "Wartorn") or string.find(name, "Thawing") then
+				cfg = LPCONFIG.NAXX
+				RollOnLoot(id, LPCONFIG.NAXX);
+			end
+		end
+
+		if LPCONFIG.BWL and string.find(zone, "Blackwing") then
+			if string.find(name, "Hourglass Sand") or string.find(name, "Elementium Ore") then
+				cfg = LPCONFIG.BWL
+				RollOnLoot(id, LPCONFIG.BWL)
+			end
+		end
+
+		-- Hard coded auto need for Necrotic Runes
+		if string.find(name, "Necrotic Rune") then
+			cfg = 1
+			RollOnLoot(id, 1);
+		end
+
+		-- Config for "White" tailoring items (Cloth, Spider Silk)
+		if LPCONFIG.WHITE_TAILORING and quality == 1 and (string.find(name, "loth") or string.find(name, "Silk")) then
+			cfg = LPCONFIG.WHITE_TAILORING
+			RollOnLoot(id, LPCONFIG.WHITE_TAILORING)
+		end
+
+		-- Config for Food and Drink
+		if LPCONFIG.FOOD_AND_DRINK and quality == 1 then
+			local itemLink = GetLootRollItemLink(id);
+			local found, _, itemIdFromLink, _ = string.find(itemLink, "item:(%d+):.*%[(.*)%]")
+			if found and itemIdFromLink then
+				local _,_,_,_,_,itemType,subType = GetItemInfo(tonumber(itemIdFromLink))
+				if itemType == "Consumable" and subType==20 then
+					cfg = LPCONFIG.FOOD_AND_DRINK
+					RollOnLoot(id, LPCONFIG.FOOD_AND_DRINK)
+				end
+			end
+		end
+
+		if LPCONFIG.ES_SHARDS and string.find(zone, "Emerald Sanctum") then
+			if string.find(name, "Dreamscale") or string.find(name, "Fading Dream Fragment") or string.find(name, "Small Dream Shard") then
+				cfg = LPCONFIG.ES_SHARDS
+				RollOnLoot(id, LPCONFIG.ES_SHARDS)
+			end
+		end
+
 	end
 
 	if LPCONFIG.ROLLMSG and type(cfg) == "number" then
@@ -1860,6 +1869,9 @@ function LazyPig_GetOption(num)
 	or num == 108 and LPCONFIG.ES_SHARDS == 1
 	or num == 109 and LPCONFIG.ES_SHARDS == 2
 	or num == 110 and LPCONFIG.ES_SHARDS == 0
+	or num == 111 and LPCONFIG.AV == 1
+	or num == 112 and LPCONFIG.AV == 2
+	or num == 113 and LPCONFIG.AV == 0
 
 	or nil then
 		this:SetChecked(true);
@@ -2202,6 +2214,21 @@ function LazyPig_SetOption(num)
 		if not checked then LPCONFIG.ES_SHARDS = nil end
 		LazyPigMenuObjects[108]:SetChecked(nil)
 		LazyPigMenuObjects[109]:SetChecked(nil)
+	elseif num == 111 then
+		LPCONFIG.AV = 1
+		if not checked then LPCONFIG.AV = nil end
+		LazyPigMenuObjects[112]:SetChecked(nil)
+		LazyPigMenuObjects[113]:SetChecked(nil)
+	elseif num == 112 then
+		LPCONFIG.AV = 2
+		if not checked then LPCONFIG.AV = nil end
+		LazyPigMenuObjects[111]:SetChecked(nil)
+		LazyPigMenuObjects[113]:SetChecked(nil)
+	elseif num == 113 then
+		LPCONFIG.AV = 0
+		if not checked then LPCONFIG.AV = nil end
+		LazyPigMenuObjects[111]:SetChecked(nil)
+		LazyPigMenuObjects[112]:SetChecked(nil)
 	else
 		--DEFAULT_CHAT_FRAME:AddMessage("DEBUG: No num assigned - "..num)
 	end

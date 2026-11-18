@@ -1,4 +1,4 @@
-# Obsideus' LazyPig v6.0.10
+# Obsideus' LazyPig v6.0.11
 
 Obsideus' LazyPig is a World of Warcraft 1.12 addon for repeatable quest turn-ins, auto-dismount, loot handling, and other shortcuts.  Updated for Turtle/OctoWoW.  Credit to Ogrisch, mrmr, Lexie and TrumpetX for their past contributions.
 
@@ -66,6 +66,8 @@ Choose **Need**, **Greed**, or **Pass** where offered. Disable the corresponding
 | Other loot | Corrupted Sand, white tailoring materials, food and drink, and uncommon items via the green-roll shortcut |
 
 Necrotic Runes are automatically rolled **Need**.
+
+**Alterac Valley Roll Automation** applies your selected **Need**, **Greed**, or **Pass** to all loot roll prompts only while in Alterac Valley. It takes priority over other automatic roll categories there. Leave all three unchecked for normal rolling behavior. This option starts disabled.
 
 ### Buff removal
 
